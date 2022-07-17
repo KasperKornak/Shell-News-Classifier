@@ -21,16 +21,31 @@ I'm writing this on sixth of July 2022. As you can see, the news aren't updated 
 It's inconsistent. Yes, the top news are usually spot on, but the rest of the articles are ones that I don't care about. So, to overcome this problem, I made simple logistic regression classifier. In next part, I will show you how to run it and for the curious ones - I'll go through the whole process in the third paragraph.
 
 ## How to run the classifier?
-First things first: you will need `news_classifier.py` and `first_try.joblib` in the same folder to run the program. After classifing articles, it will return the titles and URLs in `articles.txt` file that will appear in the same folder as `news_classifier.py`.
-1. Get the News API key at [News API](https://newsapi.org) website and register, you will need it.
+1. You need to have `news_classifier.py`, `cleaned.csv` and `first_try.joblib` in the same directory to run the code.
 
-2. Insert the API key into the `news_classifier.py` code:
+2. Head to [NewsAPI](https://newsapi.org) website, sign-up and get an API key. You will need it to scrape news from the web.
+
+3. Run the code by typing `python3 news_classifier.py` in the terminal. Be sure to have all the modules needed installed!
+
+4. After running it, you will be asked to provide an API key. Just paste it and hit enter:
+
 <p align="center">
-  <img width="581" alt="Zrzut ekranu 2022-07-6 o 21 17 49" src="https://user-images.githubusercontent.com/80947256/177626283-7ffd6346-05de-40e4-869c-1cdbfb82ae88.png">
+  <img width="539" alt="Zrzut ekranu 2022-07-17 o 16 13 31" src="https://user-images.githubusercontent.com/80947256/179402472-f1f61280-4cc3-44db-a5ad-317e105fb756.png">
 </p>
 
-3. That's it! Run it and you will get the filtered results!😄
-Please note that each time you run the code, the articles will be appended to exsisting ones. To avoid that, delete `articles.txt` after you finished using them.
+5. After that, the file `articles.txt` will be created. It stores all positively classified articles and URLs. Now, the program will ask you whether you would like to train the model or not:
+
+<p align="center">
+  <img width="297" alt="Zrzut ekranu 2022-07-17 o 16 16 27" src="https://user-images.githubusercontent.com/80947256/179402574-08d99d23-c94c-4d45-a9bb-5304870a8af8.png">
+</p>
+
+6. If you select to train the model, the program will ask you to label the data: 'y' for correctly classified entries, 'n' for badly classified ones. You may add your own articles headlines in the `articles.txt` file. If you wish to do so, you must do it before the program asks you if you want to train the model. Here is an example of how to label articles correctly:
+
+<p align="center">
+  <img width="481" alt="Zrzut ekranu 2022-07-17 o 16 21 56" src="https://user-images.githubusercontent.com/80947256/179402784-37718af2-ccea-46c1-b80e-a26771646015.png">
+</p>
+
+As you can see, you don't need to add any quotation marks, apostrophes or spaces. Just one, continuous, long string 😀. Please watch out for any typos, as model won't be able to recognize any other values than 'y' and 'n'.
 
 ## How I did it?
 ### The articles
@@ -48,15 +63,29 @@ The way that `pygooglenews` works is that after the title of the articles it add
   <img width="581" alt="Zrzut ekranu 2022-07-6 o 21 17 49" src="https://user-images.githubusercontent.com/80947256/177633084-8b742dd4-5cc9-4202-92b9-dbce947bcae2.png">
 </p>
 
-### The training
+### The (first) training
 At this point I had to select the best possible classifier for the purpose of the project. After some tests, the best performing one was Logistic Regression Classifier pipelined with `CountVectorizer` and `TfidfTransformer` all from sklearn module. I split the dataset, created a before-mentioned pipeline and achieved an accuracy of about **83%**. Lastly, I exported the trained model into .joblib file.
-TFIDF and SVM are baselines that I wanted to start with, since I know them well. In the future updates, I may switch to another tokenization and classification techniques.
+TFIDF and SVM are baselines that I wanted to start with, since I know them well. 
 
 ### Main script
-In `news_classifier.py`, I decided to use News API, since it covers more than just Google News. Again, the code is simple: send a query to News API, get the response, import titles and URLs to lists, use titles and trained model to classify the articles, then if the label of article is "y", export it and URL to `articles.txt` file.
+To run the program in a loop, I had to define three functions: *basic_ops(apis)*, *data_preparation()* and *model_training()*:
+
+- *basic_ops(apis )* gets the NewsAPI key, sends the query, classifies the articles and writes them down to `articles.txt`. It's just a slightly changed version of the first `news_classifier.py` code.
+- *data_preparation()* opens the `articles.txt` file, gets all the titles, cleans them (makes characters lowercase, uses regex to clean unnecessary parts of the headlines, etc.), gets the labels for classified headlines and appends them to exsisting `cleaned.csv` file. `cleaned.csv` is crucial as it enables model to learn more.
+- *model_training()* is basically 1:1 copy of training.py - it uses same pipeline to train the model.
+
+The last thing to write was a loop which you can see on a flowchart [here](https://github.com/KasperKornak/Shell-News-Classifier/blob/main/Shell_news_classifier_flowchart.png)
+
+So, to sum up, what happens in this code is:
+
+1. You get the news headlines from the web via News API.
+2. Using pretrained model, you classify which headlines are good, which ones are not. Then, they are exported to the `articles.txt` file.
+3. If you decide to train the model, the program will clean and prepare the data from `articles.txt` and append it to the `cleaned.csv`, which is the dataset used to train the first model.
+4. The program will train the model based on the updated dataset and overwrite the exsisting model with the newly trained one.
+
 
 ## Future
-My main goal is to create a program that will be able to improve itself based on the responses from the user. Secondly, I would like to explore improving used classification techniques. Thirdly, I would like to solve articles.txt problem (deleting the file everytime you finish using it).
+After this update, I'll abandon this project for a while. I'll try to solve the inconvenience of the deleting `aritcles.txt` file everytime you want to run the program.
 
-Thank you.
+That's it for now, thank you.
 
