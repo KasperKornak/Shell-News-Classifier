@@ -8,14 +8,14 @@ from sklearn.pipeline import Pipeline
 from sklearn import metrics
 import joblib
 from newsapi import NewsApiClient
-import os
+
 apis = ''
 i = 0
 j = 0
 k = 0
 
 def basic_ops(apis):
-    os.remove('articles.txt')
+
     #insert your News API keys here, also model is being loaded
     loaded_model = joblib.load('first_try.joblib')
     api = NewsApiClient(api_key = apis)
