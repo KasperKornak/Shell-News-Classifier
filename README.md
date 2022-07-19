@@ -1,9 +1,9 @@
 ## Table of contents
 
-1. [Introduction](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#introduction)
-2. [How to run the classifier?](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#how-to-run-the-classifier)
-3. [How I did it?](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#how-i-did-it)
-4. [Troubleshooting](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#troubleshooting)
+1. [Introduction](https://github.com/KasperKornak/Shell-News-Classifier#introduction)
+2. [How to run the classifier?](https://github.com/KasperKornak/Shell-News-Classifier#how-to-run-the-classifier)
+3. [How I did it?](https://github.com/KasperKornak/Shell-News-Classifier#how-i-did-it)
+4. [Troubleshooting](https://github.com/KasperKornak/Shell-News-Classifier#troubleshooting)
 
 ## Introduction
 I don't know about you, but I love dividend stocks. One of my holdings is Shell plc. Since I don't have much time, I use [investing.com](investing.com) as a primary resource for news regarding companies that I own. But there is a problem:
