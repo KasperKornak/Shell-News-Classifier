@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='ShellNews',
     version='2.0',
-    packages=['pygooglenews','csv','pandas','sklearn','joblib','newsapi','re'],
+    packages=['pygooglenews','csv','pandas','sklearn','joblib','newsapi','re','os'],
     url='',
     license='',
     author='Kasper Kornak',
