@@ -3,7 +3,7 @@
 1. [Introduction](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#introduction)
 2. [How to run the classifier?](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#how-to-run-the-classifier)
 3. [How I did it?](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#how-i-did-it)
-4. [Future](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#future)
+4. [Troubleshooting](https://github.com/KasperKornak/Shell-News-Classifier/edit/main/README.md#troubleshooting)
 
 ## Introduction
 I don't know about you, but I love dividend stocks. One of my holdings is Shell plc. Since I don't have much time, I use [investing.com](investing.com) as a primary resource for news regarding companies that I own. But there is a problem:
@@ -78,14 +78,26 @@ The last thing to write was a loop which you can see on a flowchart [here](https
 
 So, to sum up, what happens in this code is:
 
+0. Program checks if you have `articles.txt` in a working directory. If yes, program deletes it.
 1. You get the news headlines from the web via News API.
 2. Using pretrained model, you classify which headlines are good, which ones are not. Then, they are exported to the `articles.txt` file.
 3. If you decide to train the model, the program will clean and prepare the data from `articles.txt` and append it to the `cleaned.csv`, which is the dataset used to train the first model.
 4. The program will train the model based on the updated dataset and overwrite the exsisting model with the newly trained one.
 
 
-## Future
-After this update, I'll abandon this project for a while. I'll try to solve the inconvenience of the deleting `aritcles.txt` file everytime you want to run the program.
+## Troubleshooting
+After running the program for the first time, you may encounter this error:
 
-That's it for now, thank you.
+> File "pandas/_libs/parsers.pyx", line 801, in pandas._libs.parsers.TextReader.read_low_memory                                                             
+> File "pandas/_libs/parsers.pyx", line 857, in pandas._libs.parsers.TextReader._read_rows                                                                  
+> File "pandas/_libs/parsers.pyx", line 843, in pandas._libs.parsers.TextReader._tokenize_rows                                                                
+> File "pandas/_libs/parsers.pyx", line 1925, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 2 fields in line 4321, saw 3
 
+The problem lies in `cleaned.csv` file, which sometimes, while appending labeled headlines, doesn't append the label and headline in the new line:
+
+<p align="center">
+  <img width="1138" alt="Zrzut ekranu 2022-07-19 o 18 36 46" src="https://user-images.githubusercontent.com/80947256/179806188-97cf9b37-7156-4ef1-b214-05471e5a8168.png">
+</p>
+
+To fix it, just hit enter before the label, so that it will be counted as a full entry. Look for an exact line in which this bug happens. It is written in error message. After the removal, the program should be running smoothly. If you have more issues, please open a new issue [here](https://github.com/KasperKornak/Shell-News-Classifier/issues).
