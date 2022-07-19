@@ -8,6 +8,10 @@ from sklearn.pipeline import Pipeline
 from sklearn import metrics
 import joblib
 from newsapi import NewsApiClient
+import os
+
+if os.path.exists("articles.txt"):
+    os.remove("articles.txt")
 
 apis = ''
 i = 0
@@ -47,7 +51,7 @@ def basic_ops(apis):
             continue
 
 def data_preparation():
-    with open('articles.txt') as file:
+    with open('articles.txt',encoding="utf-8") as file:
         lines = file.readlines()
     all_lines = lines[1:]
     all_titles = []
@@ -70,10 +74,10 @@ def data_preparation():
     zipped_package = zip(labels, re_titles)
     csvf = pd.DataFrame(list(zipped_package))
     print(csvf)
-    csvf.to_csv('cleaned.csv', mode='a', index=False, header=False, sep=';')
+    csvf.to_csv('cleaned.csv', mode='a', index=False, header=False, sep=';',encoding="utf-8")
 
 def model_training():
-    set = pd.read_csv('cleaned.csv', sep=';')
+    set = pd.read_csv('cleaned.csv', sep=';',encoding="utf-8")
 
     X = set["title"]
     y = set["isgood"]
